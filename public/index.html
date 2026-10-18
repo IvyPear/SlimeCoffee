@@ -186,7 +186,6 @@
        ========================================================================== -->
   <main id="viewMenu" class="page-view">
     <div class="container">
-      <!-- Tiêu đề Menu gọn gàng (Đã xóa dòng mô tả dư thừa bên dưới) -->
       <div class="menu-page-header">
         <span class="badge badge-mint">Menu của quán</span>
         <h1 class="section-title">Thực Đơn Slime Coffee</h1>
@@ -253,7 +252,7 @@
           <line x1="12" y1="16" x2="12" y2="12"></line>
           <line x1="12" y1="8" x2="12.01" y2="8"></line>
         </svg>
-        <span>Dữ liệu được lưu trữ an toàn trong bộ nhớ cục bộ (LocalStorage) trên trình duyệt này.</span>
+        <span id="storageStatusText">Dữ liệu đơn hàng được đồng bộ và lưu trữ trực tiếp trên cơ sở dữ liệu MySQL của Server.</span>
       </p>
     </div>
   </main>
@@ -375,7 +374,7 @@
   </footer>
 
   <!-- ==========================================================================
-       JAVASCRIPT APPLICATION LOGIC
+       JAVASCRIPT APPLICATION LOGIC (TÍCH HỢP MYSQL BACKEND API)
        ========================================================================== -->
   <script>
     /* ==========================================================================
@@ -383,7 +382,7 @@
        ========================================================================== */
     const STORAGE_KEY = 'slime_coffee_orders';
 
-    // Cấu hình hình ảnh cho khu vực Hero đầu trang (bạn chỉ cần dán link ảnh vào imageUrl)
+    // Cấu hình hình ảnh cho khu vực Hero đầu trang
     const HERO_CONFIG = {
       imageUrl: '',
       altText: 'Không gian và đồ uống tại Slime Coffee'
@@ -414,7 +413,7 @@
               </svg>`
     };
 
-    // Dữ liệu sản phẩm tập trung: đã gộp thành 2 nhóm chính 'drink' (Đồ uống) và 'dessert' (Bánh ngọt)
+    // Dữ liệu sản phẩm
     const MENU_ITEMS = [
       {
         id: 1,
@@ -524,7 +523,6 @@
       });
     }
 
-    // Helper render hình ảnh khu vực Hero với icon SVG đơn sắc khi chưa có ảnh
     function renderHeroMedia() {
       const container = document.getElementById('heroImageContainer');
       if (!container) return;
@@ -552,7 +550,6 @@
       }
     }
 
-    // Helper tạo markup hình ảnh sản phẩm với fallback icon vector theo danh mục
     function renderProductImageMarkup(item) {
       const categoryIcon = item.category === 'dessert' ? VECTOR_ICONS.dessert : VECTOR_ICONS.drink;
 
@@ -805,12 +802,13 @@
     }
 
     function cancelConfirmModal() {
+      if (isSubmitting) return;
       const modalBackdrop = document.getElementById('confirmModalBackdrop');
       modalBackdrop.classList.remove('open');
     }
 
     /* ==========================================================================
-       7. TẠO VÀ LƯU ĐƠN HÀNG (LOCALSTORAGE)
+       7. TẠO VÀ LƯU ĐƠN HÀNG VÀO MYSQL (KÈM FALLBACK KHI MỞ FILE OFFLINE)
        ========================================================================== */
     function generateUniqueOrderId() {
       const datePart = new Date().toISOString().slice(2, 10).replace(/-/g, '');
@@ -818,26 +816,46 @@
       return `SC-${datePart}-${randomPart}`;
     }
 
-    function getStoredOrders() {
+    function getStoredOrdersFallback() {
       try {
         const raw = localStorage.getItem(STORAGE_KEY);
         return raw ? JSON.parse(raw) : [];
       } catch (e) {
-        console.error('Không thể đọc dữ liệu từ localStorage:', e);
         return [];
       }
     }
 
-    function saveOrdersToStorage(orders) {
+    function saveOrdersToStorageFallback(orders) {
       try {
         localStorage.setItem(STORAGE_KEY, JSON.stringify(orders));
         return true;
       } catch (e) {
-        console.error('Không thể ghi dữ liệu vào localStorage:', e);
         return false;
       }
     }
 
+    // Đọc danh sách đơn hàng từ MySQL qua API GET /api/orders
+    async function fetchOrdersFromMySQL() {
+      if (window.location.protocol === 'file:') {
+        const statusText = document.getElementById('storageStatusText');
+        if (statusText) {
+          statusText.textContent = 'Đang mở file trực tiếp (LocalStorage). Hãy chạy qua Node.js Server để kết nối MySQL.';
+        }
+        return getStoredOrdersFallback();
+      }
+
+      try {
+        const res = await fetch('/api/orders');
+        if (!res.ok) throw new Error('Không thể tải dữ liệu từ MySQL');
+        const data = await res.json();
+        return data.orders || [];
+      } catch (e) {
+        console.error('Lỗi đọc dữ liệu từ MySQL:', e);
+        return [];
+      }
+    }
+
+    // Ghi đơn hàng mới vào MySQL qua API POST /api/orders
     async function executeOrderCreation() {
       if (isSubmitting) return;
 
@@ -852,7 +870,7 @@
       const submitBtn = document.getElementById('btnConfirmSubmit');
       const originalText = submitBtn.innerHTML;
       submitBtn.disabled = true;
-      submitBtn.innerHTML = '<span>Đang lưu đơn...</span>';
+      submitBtn.innerHTML = '<span>Đang lưu vào MySQL...</span>';
 
       const totalAmount = selected.reduce((sum, i) => sum + i.subtotal, 0);
       const newOrder = {
@@ -875,12 +893,25 @@
       };
 
       try {
-        const currentOrders = getStoredOrders();
-        currentOrders.unshift(newOrder);
+        if (window.location.protocol === 'file:') {
+          // Fallback nếu bạn nhấp đúp mở file HTML không qua server.js
+          const currentOrders = getStoredOrdersFallback();
+          currentOrders.unshift(newOrder);
+          if (!saveOrdersToStorageFallback(currentOrders)) {
+            throw new Error('Không thể lưu đơn hàng vào trình duyệt.');
+          }
+        } else {
+          // Gửi request lưu trực tiếp vào bảng orders trong MySQL
+          const response = await fetch('/api/orders', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(newOrder)
+          });
 
-        const isSaved = saveOrdersToStorage(currentOrders);
-        if (!isSaved) {
-          throw new Error('Không thể lưu đơn hàng vào thiết bị.');
+          if (!response.ok) {
+            const errData = await response.json().catch(() => ({}));
+            throw new Error(errData.error || 'Lỗi kết nối cơ sở dữ liệu MySQL.');
+          }
         }
 
         cancelConfirmModal();
@@ -889,9 +920,9 @@
         const successModal = document.getElementById('successModalBackdrop');
         successModal.classList.add('open');
 
-        updateNavOrderBadge();
+        await updateNavOrderBadge();
       } catch (error) {
-        alert('Đã xảy ra lỗi khi tạo đơn hàng: ' + error.message);
+        alert('Đã xảy ra lỗi khi lưu đơn hàng vào MySQL: ' + error.message + '\nLựa chọn món hiện tại của bạn vẫn được giữ nguyên.');
       } finally {
         isSubmitting = false;
         submitBtn.disabled = false;
@@ -919,13 +950,13 @@
     }
 
     /* ==========================================================================
-       9. TRANG LỊCH SỬ ĐƠN HÀNG
+       9. TRANG LỊCH SỬ ĐƠN HÀNG (ĐỌC DỮ LIỆU TỪ MYSQL)
        ========================================================================== */
-    function renderOrderHistory() {
+    async function renderOrderHistory() {
       const container = document.getElementById('historyList');
       if (!container) return;
 
-      const orders = getStoredOrders();
+      const orders = await fetchOrdersFromMySQL();
 
       if (orders.length === 0) {
         container.innerHTML = `
@@ -969,10 +1000,10 @@
       injectMascotSVGs();
     }
 
-    function updateNavOrderBadge() {
+    async function updateNavOrderBadge() {
       const badge = document.getElementById('navOrderCountBadge');
       if (!badge) return;
-      const orders = getStoredOrders();
+      const orders = await fetchOrdersFromMySQL();
       if (orders.length > 0) {
         badge.textContent = orders.length;
         badge.style.display = 'inline-block';
