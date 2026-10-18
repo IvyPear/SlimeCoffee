@@ -212,24 +212,6 @@
       <!-- Grid danh sách món -->
       <div class="product-grid" id="productGrid"></div>
     </div>
-
-    <!-- Floating / Sticky "Chọn món" Action Bar -->
-    <div class="order-summary-bar" id="orderSummaryBar" aria-live="polite">
-      <div class="summary-info">
-        <span class="summary-badge" id="summaryTotalQty">0 món</span>
-        <div class="summary-text">
-          <span>Tạm tính: </span>
-          <strong class="summary-total" id="summaryTotalPrice">0 đ</strong>
-        </div>
-      </div>
-      <button class="btn btn-choose-order" id="btnOpenConfirmModal" onclick="openConfirmModal()">
-        <span>Chọn món</span>
-        <svg class="ui-icon" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
-          <line x1="5" y1="12" x2="19" y2="12"></line>
-          <polyline points="12 5 19 12 12 19"></polyline>
-        </svg>
-      </button>
-    </div>
   </main>
 
   <!-- ==========================================================================
@@ -257,6 +239,24 @@
     </div>
   </main>
 
+  <!-- Floating / Sticky "Chọn món" Action Bar (được đặt ngoài các page-view để không bị ẩn khi chuyển trang) -->
+  <div class="order-summary-bar" id="orderSummaryBar" aria-live="polite">
+    <div class="summary-info">
+      <span class="summary-badge" id="summaryTotalQty">0 món</span>
+      <div class="summary-text">
+        <span>Tạm tính: </span>
+        <strong class="summary-total" id="summaryTotalPrice">0 đ</strong>
+      </div>
+    </div>
+    <button class="btn btn-choose-order" id="btnOpenConfirmModal" onclick="openConfirmModal()">
+      <span>Chọn món</span>
+      <svg class="ui-icon" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
+        <line x1="5" y1="12" x2="19" y2="12"></line>
+        <polyline points="12 5 19 12 12 19"></polyline>
+      </svg>
+    </button>
+  </div>
+
   <!-- ==========================================================================
        C. POPUP XÁC NHẬN MÓN ĐÃ CHỌN
        ========================================================================== -->
@@ -271,7 +271,7 @@
               <path d="M16 10a4 4 0 0 1-8 0"></path>
             </svg>
           </span>
-          <span>Xác Nhận Món Đã Chọn</span>
+          <span>Xác Nhận Món ĐÃ CHỌN</span>
         </h3>
         <button class="modal-close-btn" onclick="cancelConfirmModal()" aria-label="Đóng popup">
           <svg class="ui-icon" width="22" height="22" viewBox="0 0 24 24" aria-hidden="true">
@@ -811,7 +811,12 @@
        7. TẠO VÀ LƯU ĐƠN HÀNG VÀO MYSQL (KÈM FALLBACK KHI MỞ FILE OFFLINE)
        ========================================================================== */
     function generateUniqueOrderId() {
-      const datePart = new Date().toISOString().slice(2, 10).replace(/-/g, '');
+      const now = new Date();
+      const year = now.getFullYear().toString().slice(2);
+      const month = String(now.getMonth() + 1).padStart(2, '0');
+      const date = String(now.getDate()).padStart(2, '0');
+      
+      const datePart = `${year}${month}${date}`;
       const randomPart = Math.floor(1000 + Math.random() * 9000);
       return `SC-${datePart}-${randomPart}`;
     }
@@ -862,7 +867,7 @@
       const selected = getSelectedItems();
       if (selected.length === 0) {
         alert('Vui lòng chọn ít nhất 1 món!');
-        cancelConfirmModal();
+        document.getElementById('confirmModalBackdrop').classList.remove('open');
         return;
       }
 
@@ -894,14 +899,12 @@
 
       try {
         if (window.location.protocol === 'file:') {
-          // Fallback nếu bạn nhấp đúp mở file HTML không qua server.js
           const currentOrders = getStoredOrdersFallback();
           currentOrders.unshift(newOrder);
           if (!saveOrdersToStorageFallback(currentOrders)) {
             throw new Error('Không thể lưu đơn hàng vào trình duyệt.');
           }
         } else {
-          // Gửi request lưu trực tiếp vào bảng orders trong MySQL
           const response = await fetch('/api/orders', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -914,8 +917,16 @@
           }
         }
 
-        cancelConfirmModal();
+        // Đóng dứt điểm modal Xác nhận (không gọi cancelConfirmModal vì bị kẹt bởi isSubmitting = true)
+        document.getElementById('confirmModalBackdrop').classList.remove('open');
 
+        // Reset giỏ hàng và render lại menu ngay khi đơn đã lưu thành công
+        MENU_ITEMS.forEach(item => {
+          itemQuantities[item.id] = 0;
+        });
+        renderProducts();
+
+        // Mở popup thành công
         document.getElementById('successOrderIdDisplay').textContent = `#${newOrder.orderId}`;
         const successModal = document.getElementById('successModalBackdrop');
         successModal.classList.add('open');
@@ -927,6 +938,7 @@
         isSubmitting = false;
         submitBtn.disabled = false;
         submitBtn.innerHTML = originalText;
+        submitBtn.blur();
       }
     }
 
@@ -935,12 +947,6 @@
        ========================================================================== */
     function completeOrderFlow(destination) {
       document.getElementById('successModalBackdrop').classList.remove('open');
-
-      MENU_ITEMS.forEach(item => {
-        itemQuantities[item.id] = 0;
-      });
-
-      renderProducts();
 
       if (destination === 'history') {
         navigateTo('history');
@@ -1055,12 +1061,6 @@
         navigateTo('home');
       }
     });
-
-    injectMascotSVGs();
-    renderHeroMedia();
-    renderBestSellers();
-    renderProducts();
-    updateNavOrderBadge();
   </script>
 </body>
 </html>
