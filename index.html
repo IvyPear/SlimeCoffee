@@ -3,1105 +3,16 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Slime Cafe — Ngọt Ngào & Ấm Áp</title>
-  <meta name="description" content="Thưởng thức đồ uống mát lành và bánh ngọt tươi mới cùng linh vật Slime đáng yêu tại Slime Cafe." />
+  <title>Slime Coffee — Ngọt Ngào & Ấm Áp</title>
+  <meta name="description" content="Thưởng thức đồ uống mát lành và bánh ngọt tươi ngon cùng phong cách trẻ trung tại Slime Coffee." />
 
   <!-- Google Fonts: Baloo 2 cho tiêu đề ngộ nghĩnh & Quicksand cho nội dung êm dịu -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
 
-  <style>
-    /* ==========================================================================
-       1. DESIGN TOKENS & SYSTEM
-       ========================================================================== */
-    :root {
-      --color-chocolate: #80401C;
-      --color-chocolate-dark: #5c2d12;
-      --color-chocolate-light: #9E562E;
-      --color-cream: #FEEBC1;
-      --color-cream-soft: #FFF8E7;
-      --color-mint: #B4D9D2;
-      --color-mint-dark: #2D9B8A;
-      --color-mint-light: #E2F3F0;
-      --color-strawberry: #C23730;
-      --color-strawberry-hover: #A32923;
-      --color-mustard: #AAA123;
-      --color-surface: #FFFFFF;
-      --color-border: rgba(128, 64, 28, 0.16);
-
-      --shadow-sm: 0 4px 12px rgba(128, 64, 28, 0.08);
-      --shadow-md: 0 10px 25px rgba(128, 64, 28, 0.12);
-      --shadow-lg: 0 16px 36px rgba(128, 64, 28, 0.18);
-
-      --font-display: 'Baloo 2', cursive, sans-serif;
-      --font-body: 'Quicksand', sans-serif;
-
-      --radius-sm: 10px;
-      --radius-md: 18px;
-      --radius-lg: 26px;
-      --radius-pill: 9999px;
-
-      --transition-fast: 0.18s ease;
-      --transition-bounce: 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-    }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    html {
-      scroll-behavior: smooth;
-    }
-
-    body {
-      font-family: var(--font-body);
-      background-color: var(--color-cream-soft);
-      color: var(--color-chocolate);
-      line-height: 1.6;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      overflow-x: hidden;
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      *, *::before, *::after {
-        animation-duration: 0.01ms !important;
-        animation-iteration-count: 1 !important;
-        transition-duration: 0.01ms !important;
-      }
-    }
-
-    /* ==========================================================================
-       2. REUSABLE UI ELEMENTS
-       ========================================================================== */
-    .container {
-      max-width: 1160px;
-      margin: 0 auto;
-      padding: 0 1.25rem;
-    }
-
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.5rem;
-      font-family: var(--font-body);
-      font-weight: 700;
-      font-size: 1rem;
-      padding: 0.75rem 1.6rem;
-      border-radius: var(--radius-pill);
-      border: 2px solid transparent;
-      cursor: pointer;
-      text-decoration: none;
-      transition: transform var(--transition-bounce), background-color 0.2s, box-shadow 0.2s;
-      user-select: none;
-    }
-
-    .btn:active {
-      transform: scale(0.97);
-    }
-
-    .btn:focus-visible {
-      outline: 3px solid var(--color-mustard);
-      outline-offset: 2px;
-    }
-
-    .btn-primary {
-      background-color: var(--color-strawberry);
-      color: #FFFFFF;
-      box-shadow: 0 4px 14px rgba(194, 55, 48, 0.28);
-    }
-
-    .btn-primary:hover {
-      background-color: var(--color-strawberry-hover);
-      transform: translateY(-2px);
-      box-shadow: 0 6px 18px rgba(194, 55, 48, 0.35);
-    }
-
-    .btn-secondary {
-      background-color: var(--color-cream);
-      color: var(--color-chocolate);
-      border-color: var(--color-chocolate);
-    }
-
-    .btn-secondary:hover {
-      background-color: var(--color-mint);
-      transform: translateY(-2px);
-    }
-
-    .btn-outline {
-      background-color: transparent;
-      color: var(--color-chocolate);
-      border-color: var(--color-chocolate);
-    }
-
-    .btn-outline:hover {
-      background-color: rgba(128, 64, 28, 0.08);
-    }
-
-    .btn:disabled {
-      opacity: 0.45;
-      cursor: not-allowed;
-      transform: none !important;
-      box-shadow: none !important;
-    }
-
-    .badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.35rem;
-      padding: 0.28rem 0.8rem;
-      border-radius: var(--radius-pill);
-      font-size: 0.82rem;
-      font-weight: 700;
-      line-height: 1;
-    }
-
-    .badge-mustard {
-      background-color: rgba(170, 161, 35, 0.18);
-      color: var(--color-chocolate);
-      border: 1px solid var(--color-mustard);
-    }
-
-    .badge-strawberry {
-      background-color: var(--color-strawberry);
-      color: #FFFFFF;
-    }
-
-    .badge-mint {
-      background-color: var(--color-mint);
-      color: var(--color-chocolate);
-    }
-
-    /* Mascot Animation */
-    .mascot-figure {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      animation: floatSlime 3.8s ease-in-out infinite;
-    }
-
-    .mascot-figure.no-float {
-      animation: none;
-    }
-
-    @keyframes floatSlime {
-      0%, 100% { transform: translateY(0px) rotate(0deg); }
-      50% { transform: translateY(-8px) rotate(1.5deg); }
-    }
-
-    /* ==========================================================================
-       3. SITE HEADER & NAVIGATION
-       ========================================================================== */
-    .site-header {
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      background-color: rgba(254, 235, 193, 0.94);
-      backdrop-filter: blur(10px);
-      border-bottom: 2px solid var(--color-border);
-      box-shadow: var(--shadow-sm);
-    }
-
-    .navbar {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      height: 74px;
-    }
-
-    .brand-logo {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      text-decoration: none;
-      color: var(--color-chocolate);
-      cursor: pointer;
-    }
-
-    .brand-wordmark {
-      font-family: var(--font-display);
-      font-size: 1.8rem;
-      font-weight: 800;
-      letter-spacing: 0.5px;
-      color: var(--color-chocolate);
-      line-height: 1;
-    }
-
-    .brand-wordmark span {
-      color: var(--color-strawberry);
-    }
-
-    .nav-links {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      list-style: none;
-    }
-
-    .nav-link-btn {
-      background: none;
-      border: 2px solid transparent;
-      color: var(--color-chocolate);
-      font-family: var(--font-body);
-      font-weight: 700;
-      font-size: 1rem;
-      padding: 0.45rem 1.1rem;
-      border-radius: var(--radius-pill);
-      cursor: pointer;
-      transition: all 0.2s ease;
-      text-decoration: none;
-    }
-
-    .nav-link-btn:hover {
-      background-color: var(--color-mint);
-      color: var(--color-chocolate);
-    }
-
-    .nav-link-btn.active {
-      background-color: var(--color-chocolate);
-      color: var(--color-cream);
-    }
-
-    .nav-order-badge {
-      background-color: var(--color-strawberry);
-      color: #fff;
-      font-size: 0.75rem;
-      padding: 0.1rem 0.45rem;
-      border-radius: var(--radius-pill);
-      margin-left: 0.35rem;
-    }
-
-    .mobile-menu-toggle {
-      display: none;
-      background: var(--color-surface);
-      border: 2px solid var(--color-chocolate);
-      border-radius: var(--radius-sm);
-      padding: 0.45rem 0.75rem;
-      font-size: 1.1rem;
-      font-weight: 700;
-      color: var(--color-chocolate);
-      cursor: pointer;
-    }
-
-    /* ==========================================================================
-       4. PAGE VIEWS (SPA NAVIGATION)
-       ========================================================================== */
-    .page-view {
-      display: none;
-      opacity: 0;
-      transform: translateY(6px);
-      transition: opacity 0.22s ease, transform 0.22s ease;
-      flex: 1;
-    }
-
-    .page-view.active {
-      display: block;
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    /* ==========================================================================
-       5. HOME VIEW: HERO, CONCEPT & BEST SELLER
-       ========================================================================== */
-    .hero-section {
-      background: linear-gradient(180deg, var(--color-cream) 0%, var(--color-cream-soft) 100%);
-      padding: 3.5rem 0 3rem;
-      border-bottom: 2px dashed var(--color-border);
-    }
-
-    .hero-grid {
-      display: grid;
-      grid-template-columns: 1.15fr 0.85fr;
-      align-items: center;
-      gap: 2.5rem;
-    }
-
-    .hero-title {
-      font-family: var(--font-display);
-      font-size: clamp(2.1rem, 4.2vw, 3.2rem);
-      line-height: 1.18;
-      margin: 0.75rem 0 1rem;
-      color: var(--color-chocolate);
-    }
-
-    .hero-desc {
-      font-size: 1.12rem;
-      margin-bottom: 1.75rem;
-      max-width: 520px;
-      color: var(--color-chocolate-dark);
-    }
-
-    .hero-visual {
-      background-color: var(--color-mint-light);
-      border: 3px solid var(--color-chocolate);
-      border-radius: var(--radius-lg);
-      padding: 2.25rem 2rem;
-      text-align: center;
-      box-shadow: var(--shadow-md);
-      position: relative;
-    }
-
-    .hero-visual-tag {
-      margin-top: 1rem;
-      font-weight: 700;
-      font-size: 0.95rem;
-      background-color: var(--color-cream);
-      display: inline-block;
-      padding: 0.35rem 1.1rem;
-      border-radius: var(--radius-pill);
-      border: 1.5px solid var(--color-chocolate);
-    }
-
-    /* Concept Section */
-    .section-about {
-      padding: 3.5rem 0;
-    }
-
-    .about-card {
-      background-color: var(--color-surface);
-      border: 2px solid var(--color-chocolate);
-      border-radius: var(--radius-lg);
-      padding: 2.5rem;
-      display: grid;
-      grid-template-columns: 0.32fr 0.68fr;
-      align-items: center;
-      gap: 2.25rem;
-      box-shadow: var(--shadow-sm);
-    }
-
-    .section-heading-sm {
-      font-family: var(--font-display);
-      font-size: 1.85rem;
-      margin: 0.4rem 0 0.85rem;
-      color: var(--color-chocolate);
-    }
-
-    /* Best Seller Section */
-    .section-bestseller {
-      padding: 3.5rem 0 4.5rem;
-      background-color: rgba(254, 235, 193, 0.45);
-      border-top: 2px solid var(--color-border);
-      border-bottom: 2px solid var(--color-border);
-    }
-
-    .section-header {
-      text-align: center;
-      margin-bottom: 2.25rem;
-    }
-
-    .section-title {
-      font-family: var(--font-display);
-      font-size: clamp(1.9rem, 3.2vw, 2.5rem);
-      color: var(--color-chocolate);
-      margin-bottom: 0.4rem;
-    }
-
-    .section-subtitle {
-      font-size: 1.05rem;
-      color: var(--color-chocolate-dark);
-      opacity: 0.9;
-    }
-
-    .bestseller-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 1.75rem;
-      margin-bottom: 2.5rem;
-    }
-
-    .bestseller-cta-wrapper {
-      text-align: center;
-    }
-
-    /* ==========================================================================
-       6. MENU VIEW: FILTERS, PRODUCT GRID & QTY CONTROLS
-       ========================================================================== */
-    .menu-page-header {
-      padding: 2.5rem 0 1.5rem;
-      text-align: center;
-    }
-
-    .menu-toolbar {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: space-between;
-      gap: 1rem;
-      margin-bottom: 2.25rem;
-      background-color: var(--color-cream);
-      padding: 1rem 1.25rem;
-      border-radius: var(--radius-md);
-      border: 2px solid var(--color-border);
-    }
-
-    .category-tabs {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.5rem;
-    }
-
-    .tab-btn {
-      background-color: var(--color-surface);
-      color: var(--color-chocolate);
-      border: 1.5px solid var(--color-chocolate);
-      padding: 0.45rem 1.1rem;
-      border-radius: var(--radius-pill);
-      font-family: var(--font-body);
-      font-weight: 700;
-      font-size: 0.95rem;
-      cursor: pointer;
-      transition: all 0.2s ease;
-    }
-
-    .tab-btn:hover,
-    .tab-btn.active {
-      background-color: var(--color-chocolate);
-      color: var(--color-cream);
-    }
-
-    .search-box {
-      position: relative;
-      min-width: 260px;
-    }
-
-    .search-input {
-      width: 100%;
-      padding: 0.55rem 1rem 0.55rem 2.25rem;
-      border-radius: var(--radius-pill);
-      border: 2px solid var(--color-chocolate);
-      background-color: var(--color-surface);
-      color: var(--color-chocolate);
-      font-family: var(--font-body);
-      font-weight: 600;
-      font-size: 0.95rem;
-    }
-
-    .search-icon {
-      position: absolute;
-      left: 0.85rem;
-      top: 50%;
-      transform: translateY(-50%);
-      opacity: 0.7;
-      pointer-events: none;
-    }
-
-    .product-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(265px, 1fr));
-      gap: 1.75rem;
-      padding-bottom: 6rem; /* Khoảng trống cho floating bar */
-    }
-
-    .product-card {
-      background-color: var(--color-surface);
-      border: 2px solid var(--color-chocolate);
-      border-radius: var(--radius-md);
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-      box-shadow: var(--shadow-sm);
-      transition: transform var(--transition-bounce), box-shadow 0.2s, border-color 0.2s;
-      position: relative;
-    }
-
-    .product-card:hover {
-      transform: translateY(-4px);
-      box-shadow: var(--shadow-md);
-    }
-
-    .product-card.has-selected {
-      border-color: var(--color-strawberry);
-      background: linear-gradient(180deg, #FFFFFF 0%, #FFF9F8 100%);
-    }
-
-    .product-thumb {
-      height: 160px;
-      background: linear-gradient(135deg, var(--color-cream) 0%, var(--color-mint) 100%);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 3.6rem;
-      position: relative;
-      border-bottom: 2px solid var(--color-chocolate);
-    }
-
-    .product-tag {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-    }
-
-    .product-body {
-      padding: 1.25rem;
-      display: flex;
-      flex-direction: column;
-      flex: 1;
-    }
-
-    .product-title {
-      font-family: var(--font-display);
-      font-size: 1.25rem;
-      line-height: 1.25;
-      margin-bottom: 0.35rem;
-    }
-
-    .product-desc {
-      font-size: 0.9rem;
-      color: var(--color-chocolate-dark);
-      opacity: 0.88;
-      margin-bottom: 1rem;
-      flex: 1;
-    }
-
-    .product-footer {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 0.5rem;
-      padding-top: 0.75rem;
-      border-top: 1.5px dashed var(--color-border);
-    }
-
-    .product-price {
-      font-weight: 800;
-      font-size: 1.15rem;
-      color: var(--color-strawberry);
-      white-space: nowrap;
-    }
-
-    /* Quantity Controller [-] [qty] [+] */
-    .qty-stepper {
-      display: flex;
-      align-items: center;
-      background-color: var(--color-cream-soft);
-      border: 1.5px solid var(--color-chocolate);
-      border-radius: var(--radius-pill);
-      padding: 0.2rem 0.35rem;
-      gap: 0.35rem;
-    }
-
-    .qty-btn {
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      border: 1.5px solid var(--color-chocolate);
-      background-color: var(--color-surface);
-      color: var(--color-chocolate);
-      font-weight: 800;
-      font-size: 1.15rem;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: background-color 0.15s, transform 0.1s;
-      line-height: 1;
-    }
-
-    .qty-btn:hover:not(:disabled) {
-      background-color: var(--color-mint);
-      transform: scale(1.08);
-    }
-
-    .qty-btn:active:not(:disabled) {
-      transform: scale(0.95);
-    }
-
-    .qty-btn:disabled {
-      opacity: 0.35;
-      cursor: not-allowed;
-      border-color: rgba(128, 64, 28, 0.4);
-    }
-
-    .qty-value {
-      min-width: 26px;
-      text-align: center;
-      font-weight: 800;
-      font-size: 1rem;
-      color: var(--color-chocolate);
-    }
-
-    /* ==========================================================================
-       7. FLOATING / STICKY "CHỌN MÓN" ACTION BAR
-       ========================================================================== */
-    .order-summary-bar {
-      position: fixed;
-      bottom: 20px;
-      left: 50%;
-      transform: translateX(-50%) translateY(120px);
-      width: calc(100% - 2.5rem);
-      max-width: 780px;
-      background-color: rgba(128, 64, 28, 0.96);
-      backdrop-filter: blur(12px);
-      color: var(--color-cream);
-      padding: 0.85rem 1.4rem;
-      border-radius: var(--radius-pill);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 1rem;
-      box-shadow: var(--shadow-lg);
-      z-index: 90;
-      transition: transform 0.32s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.25s ease;
-      opacity: 0;
-      pointer-events: none;
-    }
-
-    .order-summary-bar.visible {
-      transform: translateX(-50%) translateY(0);
-      opacity: 1;
-      pointer-events: auto;
-    }
-
-    .summary-info {
-      display: flex;
-      align-items: center;
-      gap: 0.9rem;
-    }
-
-    .summary-badge {
-      background-color: var(--color-strawberry);
-      color: #FFFFFF;
-      font-size: 0.9rem;
-      font-weight: 800;
-      padding: 0.35rem 0.85rem;
-      border-radius: var(--radius-pill);
-    }
-
-    .summary-text {
-      font-size: 0.95rem;
-      line-height: 1.25;
-    }
-
-    .summary-total {
-      font-size: 1.15rem;
-      font-weight: 800;
-      color: var(--color-mint);
-    }
-
-    .btn-choose-order {
-      background-color: var(--color-cream);
-      color: var(--color-chocolate);
-      border: 2px solid var(--color-chocolate);
-      padding: 0.65rem 1.4rem;
-      font-size: 1rem;
-      font-weight: 800;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    }
-
-    .btn-choose-order:hover {
-      background-color: var(--color-mint);
-      transform: translateY(-2px);
-    }
-
-    /* ==========================================================================
-       8. MODAL POPUPS (CONFIRM & SUCCESS)
-       ========================================================================== */
-    .modal-backdrop {
-      position: fixed;
-      inset: 0;
-      background-color: rgba(92, 45, 18, 0.62);
-      backdrop-filter: blur(6px);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 1rem;
-      z-index: 200;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.22s ease;
-    }
-
-    .modal-backdrop.open {
-      opacity: 1;
-      pointer-events: auto;
-    }
-
-    .modal-card {
-      background-color: var(--color-surface);
-      border: 3px solid var(--color-chocolate);
-      border-radius: var(--radius-lg);
-      width: 100%;
-      max-width: 540px;
-      max-height: 90vh;
-      display: flex;
-      flex-direction: column;
-      box-shadow: var(--shadow-lg);
-      transform: scale(0.92) translateY(12px);
-      transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
-      overflow: hidden;
-    }
-
-    .modal-backdrop.open .modal-card {
-      transform: scale(1) translateY(0);
-    }
-
-    .modal-header {
-      background-color: var(--color-cream);
-      padding: 1.1rem 1.4rem;
-      border-bottom: 2px solid var(--color-border);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .modal-title {
-      font-family: var(--font-display);
-      font-size: 1.45rem;
-      color: var(--color-chocolate);
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-
-    .modal-close-btn {
-      background: none;
-      border: none;
-      font-size: 1.6rem;
-      font-weight: 700;
-      color: var(--color-chocolate);
-      cursor: pointer;
-      line-height: 1;
-      padding: 0.2rem 0.5rem;
-      border-radius: var(--radius-sm);
-    }
-
-    .modal-close-btn:hover {
-      background-color: rgba(128, 64, 28, 0.1);
-    }
-
-    .modal-body {
-      padding: 1.35rem;
-      overflow-y: auto;
-      flex: 1;
-    }
-
-    .modal-items-table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-bottom: 1.25rem;
-    }
-
-    .modal-items-table th {
-      text-align: left;
-      font-size: 0.85rem;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      padding-bottom: 0.65rem;
-      border-bottom: 2px solid var(--color-border);
-      color: var(--color-chocolate-dark);
-      opacity: 0.85;
-    }
-
-    .modal-items-table td {
-      padding: 0.75rem 0;
-      border-bottom: 1px dashed var(--color-border);
-      font-size: 0.95rem;
-    }
-
-    .modal-items-table td.col-right,
-    .modal-items-table th.col-right {
-      text-align: right;
-    }
-
-    .modal-total-box {
-      background-color: var(--color-cream-soft);
-      border: 2px dashed var(--color-chocolate);
-      border-radius: var(--radius-md);
-      padding: 1rem 1.25rem;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .modal-total-label {
-      font-weight: 700;
-      font-size: 1.05rem;
-    }
-
-    .modal-total-value {
-      font-family: var(--font-display);
-      font-size: 1.55rem;
-      font-weight: 800;
-      color: var(--color-strawberry);
-    }
-
-    .modal-footer {
-      background-color: var(--color-cream-soft);
-      padding: 1.1rem 1.4rem;
-      border-top: 2px solid var(--color-border);
-      display: flex;
-      align-items: center;
-      justify-content: flex-end;
-      gap: 0.85rem;
-    }
-
-    /* Success Modal specifics */
-    .success-modal-body {
-      text-align: center;
-      padding: 2.25rem 1.5rem 1.75rem;
-    }
-
-    .success-badge {
-      display: inline-block;
-      margin-bottom: 1rem;
-    }
-
-    .order-code-box {
-      margin: 1.25rem auto 1.5rem;
-      background-color: var(--color-mint-light);
-      border: 2px solid var(--color-mint-dark);
-      border-radius: var(--radius-md);
-      padding: 1rem 1.25rem;
-      max-width: 380px;
-    }
-
-    .order-code-label {
-      font-size: 0.85rem;
-      font-weight: 700;
-      color: var(--color-chocolate-dark);
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      margin-bottom: 0.25rem;
-    }
-
-    .order-code-value {
-      font-family: var(--font-display);
-      font-size: 1.85rem;
-      font-weight: 800;
-      color: var(--color-strawberry);
-      letter-spacing: 1px;
-    }
-
-    /* ==========================================================================
-       9. ORDER HISTORY VIEW
-       ========================================================================== */
-    .history-page-header {
-      padding: 2.5rem 0 1.5rem;
-      text-align: center;
-    }
-
-    .history-list {
-      max-width: 760px;
-      margin: 0 auto;
-      display: flex;
-      flex-direction: column;
-      gap: 1.1rem;
-      padding-bottom: 4rem;
-    }
-
-    .history-card {
-      background-color: var(--color-surface);
-      border: 2px solid var(--color-chocolate);
-      border-radius: var(--radius-md);
-      padding: 1.25rem 1.5rem;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 1rem;
-      box-shadow: var(--shadow-sm);
-      transition: transform var(--transition-bounce), box-shadow 0.2s;
-    }
-
-    .history-card:hover {
-      transform: translateY(-2px);
-      box-shadow: var(--shadow-md);
-    }
-
-    .history-code-group {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-    }
-
-    .history-mascot-icon {
-      width: 44px;
-      height: 44px;
-      background-color: var(--color-mint-light);
-      border: 1.5px solid var(--color-chocolate);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-    }
-
-    .history-order-id {
-      font-family: var(--font-display);
-      font-size: 1.35rem;
-      font-weight: 800;
-      color: var(--color-chocolate);
-      line-height: 1.2;
-    }
-
-    .history-order-time {
-      font-size: 0.85rem;
-      color: var(--color-chocolate-dark);
-      opacity: 0.8;
-    }
-
-    /* Empty State */
-    .empty-state {
-      text-align: center;
-      padding: 3.5rem 1.5rem;
-      background-color: var(--color-surface);
-      border-radius: var(--radius-lg);
-      border: 2px dashed var(--color-chocolate);
-      max-width: 580px;
-      margin: 1.5rem auto 3rem;
-      box-shadow: var(--shadow-sm);
-    }
-
-    .empty-state-title {
-      font-family: var(--font-display);
-      font-size: 1.7rem;
-      margin: 1rem 0 0.5rem;
-      color: var(--color-chocolate);
-    }
-
-    .empty-state-desc {
-      font-size: 1rem;
-      color: var(--color-chocolate-dark);
-      opacity: 0.85;
-      margin-bottom: 1.5rem;
-    }
-
-    .history-disclaimer {
-      text-align: center;
-      font-size: 0.85rem;
-      color: var(--color-chocolate-dark);
-      opacity: 0.75;
-      margin-top: 2rem;
-    }
-
-    /* ==========================================================================
-       10. SITE FOOTER
-       ========================================================================== */
-    .site-footer {
-      background-color: var(--color-chocolate);
-      color: var(--color-cream);
-      padding: 2.25rem 0;
-      margin-top: auto;
-      border-top: 3px solid var(--color-chocolate-dark);
-    }
-
-    .footer-inner {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-between;
-      align-items: center;
-      gap: 1.25rem;
-    }
-
-    .footer-nav {
-      display: flex;
-      gap: 1.25rem;
-    }
-
-    .footer-nav-link {
-      color: var(--color-cream);
-      text-decoration: none;
-      font-weight: 600;
-      font-size: 0.95rem;
-      cursor: pointer;
-      background: none;
-      border: none;
-      font-family: inherit;
-    }
-
-    .footer-nav-link:hover {
-      color: var(--color-mint);
-      text-decoration: underline;
-    }
-
-    /* ==========================================================================
-       11. RESPONSIVE BREAKPOINTS
-       ========================================================================== */
-    @media (max-width: 900px) {
-      .hero-grid,
-      .about-card {
-        grid-template-columns: 1fr;
-        text-align: center;
-      }
-
-      .hero-desc {
-        margin-left: auto;
-        margin-right: auto;
-      }
-
-      .hero-cta-group {
-        justify-content: center;
-      }
-    }
-
-    @media (max-width: 680px) {
-      .navbar {
-        height: 68px;
-      }
-
-      .mobile-menu-toggle {
-        display: block;
-      }
-
-      .nav-links {
-        display: none;
-        position: absolute;
-        top: 68px;
-        left: 0;
-        right: 0;
-        background-color: var(--color-cream);
-        flex-direction: column;
-        padding: 1.25rem 1rem;
-        border-bottom: 2px solid var(--color-chocolate);
-        box-shadow: var(--shadow-md);
-        gap: 0.5rem;
-      }
-
-      .nav-links.open {
-        display: flex;
-      }
-
-      .nav-link-btn {
-        width: 100%;
-        text-align: center;
-        padding: 0.7rem 1rem;
-      }
-
-      .order-summary-bar {
-        width: calc(100% - 1.5rem);
-        flex-direction: column;
-        border-radius: var(--radius-lg);
-        padding: 0.85rem 1rem;
-        gap: 0.65rem;
-      }
-
-      .summary-info {
-        width: 100%;
-        justify-content: space-between;
-      }
-
-      .btn-choose-order {
-        width: 100%;
-      }
-
-      .modal-footer {
-        flex-direction: column-reverse;
-      }
-
-      .modal-footer .btn {
-        width: 100%;
-      }
-
-      .history-card {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-    }
-  </style>
+  <!-- Liên kết file CSS bên ngoài -->
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
@@ -1109,7 +20,7 @@
        SLIME MASCOT SVG TEMPLATE (Vector linh hoạt, hiển thị sắc nét mọi kích thước)
        ========================================================================== -->
   <template id="slime-mascot-template">
-    <svg viewBox="0 0 260 220" role="img" aria-label="Linh vật Slime Cafe" class="slime-svg-node">
+    <svg viewBox="0 0 260 220" role="img" aria-label="Slime Bá Vương" class="slime-svg-node">
       <defs>
         <linearGradient id="slimeMintGrad" x1="0%" y1="0%" x2="0%" y2="100%">
           <stop offset="0%" stop-color="#5CE6D0" />
@@ -1150,9 +61,11 @@
        ========================================================================== -->
   <header class="site-header">
     <div class="container navbar">
-      <a class="brand-logo" onclick="navigateTo('home')" aria-label="Slime Cafe Trang chủ">
-        <span class="mascot-slot" data-size="44"></span>
-        <span class="brand-wordmark">Slime <span>Cafe</span></span>
+      <a class="brand-logo" onclick="navigateTo('home')" aria-label="Slime Coffee Trang chủ">
+        <div class="logo-mascot-wrapper">
+          <span class="mascot-slot" data-size="38"></span>
+        </div>
+        <span class="brand-wordmark">Slime <span>Coffee</span></span>
       </a>
 
       <nav aria-label="Menu điều hướng chính">
@@ -1165,13 +78,19 @@
           </li>
           <li>
             <button class="nav-link-btn" id="navBtn-history" onclick="navigateTo('history')">
-              Lịch sử Order <span class="nav-order-badge" id="navOrderCountBadge" style="display: none;">0</span>
+              Lịch sử đơn hàng <span class="nav-order-badge" id="navOrderCountBadge" style="display: none;">0</span>
             </button>
           </li>
         </ul>
       </nav>
 
-      <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Mở danh mục điều hướng">☰</button>
+      <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Mở danh mục điều hướng">
+        <svg class="ui-icon" width="22" height="22" viewBox="0 0 24 24" aria-hidden="true">
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+      </button>
     </div>
   </header>
 
@@ -1179,50 +98,59 @@
        A. TRANG CHỦ — HOME VIEW
        ========================================================================== -->
   <main id="viewHome" class="page-view active">
-    <!-- Hero Section -->
+    <!-- Hero Section: 2 Cột trên Desktop, 1 cột căn trái trên Mobile -->
     <section class="hero-section">
       <div class="container hero-grid">
-        <div>
-          <span class="badge badge-mustard">✦ Góc nhỏ ngọt ngào & ấm áp</span>
-          <h1 class="hero-title">Thưởng thức Kem Ngọt & Đồ Uống Mát Lành cùng Slime!</h1>
+        <!-- Cột trái: Nội dung giới thiệu căn trái -->
+        <div class="hero-content-left">
+          <span class="badge badge-mustard">
+            <svg class="ui-icon" width="13" height="13" viewBox="0 0 24 24" aria-hidden="true">
+              <polygon points="12 2 15 9 22 12 15 15 12 22 9 15 2 12 9 9 12 2" fill="currentColor" stroke="none"></polygon>
+            </svg>
+            Góc nhỏ cà phê & tráng miệng
+          </span>
+          <h1 class="hero-title">Cà phê ngon, bánh xịn, mood lên liền!</h1>
           <p class="hero-desc">
-            Lấy cảm hứng từ những món tráng miệng ngọt dịu và sắc màu pastel êm dịu, Slime Cafe mang đến không gian thư giãn, phong cách tươi mới và trải nghiệm đặt món tiện lợi, đáng yêu.
+            Ghé Slime Coffee nhâm nhi ly đồ uống mát lành cùng chiếc bánh thơm mềm. Deadline thì lúc nào cũng có, nhưng cứ thư thả tận hưởng trước đã!
           </p>
-          <div class="hero-cta-group" style="display: flex; gap: 1rem; flex-wrap: wrap;">
+          <div class="hero-cta-group">
             <button class="btn btn-primary" onclick="navigateTo('menu')">
-              Khám phá Menu ✦
+              <span>Khám phá Menu</span>
+              <svg class="ui-icon" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
             </button>
           </div>
         </div>
 
-        <div class="hero-visual">
-          <div class="mascot-figure">
-            <span class="mascot-slot" data-size="200"></span>
-          </div>
-          <div>
-            <span class="hero-visual-tag">Linh vật Slime Bạc Hà ✦</span>
+        <!-- Cột phải: Khu vực dành cho ảnh thực tế của quán / đồ uống -->
+        <div class="hero-media-col">
+          <div class="hero-image-frame" id="heroImageContainer">
+            <!-- Sẽ được render tự động từ cấu hình HERO_CONFIG -->
           </div>
         </div>
       </div>
     </section>
 
-    <!-- Giới thiệu quán -->
+    <!-- Câu chuyện quán -->
     <section class="section-about">
       <div class="container">
         <div class="about-card">
-          <div style="text-align: center;">
+          <div class="about-mascot-col">
             <div class="mascot-figure">
-              <span class="mascot-slot" data-size="130"></span>
+              <span class="mascot-slot" data-size="210"></span>
             </div>
+            <div class="mascot-name-label">Slime Bá Vương</div>
           </div>
-          <div>
-            <span class="badge badge-mint">Concept & Trải nghiệm</span>
-            <h2 class="section-heading-sm">Câu Chuyện Slime Cafe</h2>
-            <p style="margin-bottom: 0.85rem; color: var(--color-chocolate-dark);">
-              Slime Cafe được hình thành từ ý tưởng xây dựng một không gian thư thái, nơi mỗi ly nước mát lành và từng chiếc bánh tráng miệng đều được hòa quyện trọn vẹn hương vị tinh tế cùng sự dễ thương của nhân vật Slime.
+          <div class="about-content-col">
+            <span class="badge badge-mint" style="align-self: flex-start;">Câu chuyện quán</span>
+            <h2 class="section-heading-sm">Góc Nhỏ Cho Bạn Nạp Năng Lượng</h2>
+            <p class="about-text-p">
+              Slime Coffee được mở ra từ mong muốn tạo nên một chốn dừng chân dễ chịu giữa chuỗi ngày bận rộn. Tên gọi "Slime" lấy cảm hứng từ sự mềm mại, biến hóa linh hoạt và luôn tràn đầy năng lượng tươi vui, giống như tinh thần tích cực mà quán muốn gửi gắm qua từng ly trà và mẩu bánh thơm.
             </p>
-            <p style="color: var(--color-chocolate-dark);">
-              Tại đây, trải nghiệm của bạn luôn được ưu tiên hàng đầu với giao diện trực quan, dịch vụ chu đáo và nguồn năng lượng tích cực ấm áp mỗi ngày.
+            <p class="about-text-p">
+              Dù bạn ghé quán để trò chuyện cùng bạn bè, tìm góc yên tĩnh học bài hay đơn giản là tự thưởng cho mình một buổi chiều thảnh thơi, Slime Coffee luôn sẵn sàng chào đón bạn!
             </p>
           </div>
         </div>
@@ -1233,16 +161,20 @@
     <section class="section-bestseller">
       <div class="container">
         <div class="section-header">
-          <span class="badge badge-strawberry">Được yêu thích nhất</span>
-          <h2 class="section-title">Món Bán Chạy — Best Seller</h2>
-          <p class="section-subtitle">Những món đặc trưng được lấy từ dữ liệu thực đơn chính thức của quán</p>
+          <span class="badge badge-strawberry">Món nổi bật</span>
+          <h2 class="section-title">Món Bán Chạy</h2>
+          <p class="section-subtitle">Những hương vị đặc trưng được khách hàng yêu thích nhất tại quán</p>
         </div>
 
         <div class="bestseller-grid" id="bestSellerGrid"></div>
 
         <div class="bestseller-cta-wrapper">
           <button class="btn btn-secondary" onclick="navigateTo('menu')">
-            Xem toàn bộ Menu →
+            <span>Xem toàn bộ Menu</span>
+            <svg class="ui-icon" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
           </button>
         </div>
       </div>
@@ -1254,22 +186,26 @@
        ========================================================================== -->
   <main id="viewMenu" class="page-view">
     <div class="container">
+      <!-- Tiêu đề Menu gọn gàng (Đã xóa dòng mô tả dư thừa bên dưới) -->
       <div class="menu-page-header">
-        <span class="badge badge-mint">Thực Đơn Tươi Mát</span>
-        <h1 class="section-title" style="margin-top: 0.35rem;">Danh Sách Món Slime Cafe</h1>
-        <p class="section-subtitle">Tùy chỉnh số lượng món bằng nút + và − để chuẩn bị cho đơn hàng của bạn</p>
+        <span class="badge badge-mint">Menu của quán</span>
+        <h1 class="section-title">Thực Đơn Slime Coffee</h1>
       </div>
 
-      <!-- Toolbar: Danh mục & Tìm kiếm -->
+      <!-- Toolbar: 3 Danh mục chính & Tìm kiếm -->
       <div class="menu-toolbar">
         <div class="category-tabs" id="categoryTabs" role="tablist">
           <button class="tab-btn active" data-category="all">Tất cả</button>
-          <button class="tab-btn" data-category="drink">Đồ uống Kem & Sữa</button>
-          <button class="tab-btn" data-category="dessert">Tráng miệng Slime</button>
-          <button class="tab-btn" data-category="tea">Trà Trái Cây</button>
+          <button class="tab-btn" data-category="drink">Đồ uống</button>
+          <button class="tab-btn" data-category="dessert">Bánh ngọt</button>
         </div>
         <div class="search-box">
-          <span class="search-icon">🔍</span>
+          <span class="search-icon" aria-hidden="true">
+            <svg class="ui-icon" width="18" height="18" viewBox="0 0 24 24">
+              <circle cx="11" cy="11" r="7"></circle>
+              <line x1="20" y1="20" x2="16.35" y2="16.35"></line>
+            </svg>
+          </span>
           <input type="search" id="searchInput" class="search-input" placeholder="Tìm kiếm tên món..." aria-label="Tìm kiếm món" />
         </div>
       </div>
@@ -1278,7 +214,7 @@
       <div class="product-grid" id="productGrid"></div>
     </div>
 
-    <!-- Floating / Sticky "Chọn món" Action Bar (chỉ xuất hiện khi có ít nhất 1 món được chọn) -->
+    <!-- Floating / Sticky "Chọn món" Action Bar -->
     <div class="order-summary-bar" id="orderSummaryBar" aria-live="polite">
       <div class="summary-info">
         <span class="summary-badge" id="summaryTotalQty">0 món</span>
@@ -1288,7 +224,11 @@
         </div>
       </div>
       <button class="btn btn-choose-order" id="btnOpenConfirmModal" onclick="openConfirmModal()">
-        Chọn món ➔
+        <span>Chọn món</span>
+        <svg class="ui-icon" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
+          <line x1="5" y1="12" x2="19" y2="12"></line>
+          <polyline points="12 5 19 12 12 19"></polyline>
+        </svg>
       </button>
     </div>
   </main>
@@ -1299,8 +239,8 @@
   <main id="viewHistory" class="page-view">
     <div class="container">
       <div class="history-page-header">
-        <span class="badge badge-mustard">Tra Cứu Đơn Hàng</span>
-        <h1 class="section-title" style="margin-top: 0.35rem;">Lịch Sử Order</h1>
+        <span class="badge badge-mustard">Tra Cứu</span>
+        <h1 class="section-title" style="margin-top: 0.35rem;">Lịch Sử Đơn Hàng</h1>
         <p class="section-subtitle">Danh sách các mã đơn hàng đã được tạo thành công</p>
       </div>
 
@@ -1308,7 +248,12 @@
       <div class="history-list" id="historyList"></div>
 
       <p class="history-disclaimer">
-        ✦ Dữ liệu được lưu trữ an toàn trong bộ nhớ cục bộ (LocalStorage) trên trình duyệt này.
+        <svg class="ui-icon" width="15" height="15" viewBox="0 0 24 24" aria-hidden="true">
+          <circle cx="12" cy="12" r="10"></circle>
+          <line x1="12" y1="16" x2="12" y2="12"></line>
+          <line x1="12" y1="8" x2="12.01" y2="8"></line>
+        </svg>
+        <span>Dữ liệu được lưu trữ an toàn trong bộ nhớ cục bộ (LocalStorage) trên trình duyệt này.</span>
       </p>
     </div>
   </main>
@@ -1320,9 +265,21 @@
     <div class="modal-card">
       <div class="modal-header">
         <h3 class="modal-title" id="confirmModalTitle">
-          <span>🧁</span> Xác Nhận Món Đã Chọn
+          <span class="modal-title-icon" aria-hidden="true">
+            <svg class="ui-icon" width="22" height="22" viewBox="0 0 24 24">
+              <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+              <line x1="3" y1="6" x2="21" y2="6"></line>
+              <path d="M16 10a4 4 0 0 1-8 0"></path>
+            </svg>
+          </span>
+          <span>Xác Nhận Món Đã Chọn</span>
         </h3>
-        <button class="modal-close-btn" onclick="cancelConfirmModal()" aria-label="Đóng popup">×</button>
+        <button class="modal-close-btn" onclick="cancelConfirmModal()" aria-label="Đóng popup">
+          <svg class="ui-icon" width="22" height="22" viewBox="0 0 24 24" aria-hidden="true">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
       </div>
 
       <div class="modal-body">
@@ -1341,7 +298,7 @@
         </table>
 
         <div class="modal-total-box">
-          <span class="modal-total-label">Tổng tiền dự kiến:</span>
+          <span class="modal-total-label">Tổng tiền:</span>
           <span class="modal-total-value" id="confirmTotalAmount">0 đ</span>
         </div>
       </div>
@@ -1351,7 +308,10 @@
           Hủy
         </button>
         <button class="btn btn-primary" id="btnConfirmSubmit" onclick="executeOrderCreation()">
-          Xác nhận đặt món ✦
+          <span>Xác nhận đặt món</span>
+          <svg class="ui-icon" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
+            <polyline points="20 6 9 17 4 12"></polyline>
+          </svg>
         </button>
       </div>
     </div>
@@ -1368,10 +328,16 @@
         </div>
 
         <h3 class="modal-title" id="successModalTitle" style="justify-content: center; font-size: 1.8rem; margin-top: 0.75rem;">
-          Đặt Món Thành Công! 🎉
+          <span>Đặt Món Thành Công!</span>
+          <span class="modal-title-icon" aria-hidden="true">
+            <svg class="ui-icon" width="24" height="24" viewBox="0 0 24 24">
+              <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+              <polyline points="22 4 12 14.01 9 11.01"></polyline>
+            </svg>
+          </span>
         </h3>
         <p style="color: var(--color-chocolate-dark); margin-top: 0.35rem;">
-          Đơn hàng của bạn đã được lưu thành công vào hệ thống.
+          Đơn hàng của bạn đã được ghi nhận trên hệ thống.
         </p>
 
         <div class="order-code-box">
@@ -1384,7 +350,7 @@
             Hoàn tất
           </button>
           <button class="btn btn-secondary" onclick="completeOrderFlow('history')">
-            Xem lịch sử order
+            Xem lịch sử đơn hàng
           </button>
         </div>
       </div>
@@ -1397,13 +363,13 @@
   <footer class="site-footer">
     <div class="container footer-inner">
       <div>
-        <strong style="font-family: var(--font-display); font-size: 1.4rem;">Slime Cafe</strong>
-        <p style="font-size: 0.9rem; opacity: 0.85;">Góc nhỏ ngọt ngào, đồ uống mát lành & tráng miệng cùng Slime.</p>
+        <strong style="font-family: var(--font-display); font-size: 1.4rem;">Slime Coffee</strong>
+        <p style="font-size: 0.9rem; opacity: 0.85;">Góc nhỏ đồ uống mát lành & bánh ngọt thơm ngon.</p>
       </div>
       <nav class="footer-nav" aria-label="Điều hướng chân trang">
         <button class="footer-nav-link" onclick="navigateTo('home')">Trang chủ</button>
         <button class="footer-nav-link" onclick="navigateTo('menu')">Menu</button>
-        <button class="footer-nav-link" onclick="navigateTo('history')">Lịch sử Order</button>
+        <button class="footer-nav-link" onclick="navigateTo('history')">Lịch sử đơn hàng</button>
       </nav>
     </div>
   </footer>
@@ -1415,16 +381,47 @@
     /* ==========================================================================
        1. DATA DEFINITIONS & APP STATE
        ========================================================================== */
-    const STORAGE_KEY = 'slime_cafe_orders';
+    const STORAGE_KEY = 'slime_coffee_orders';
 
-    // Dữ liệu sản phẩm mẫu chính thức của quán
+    // Cấu hình hình ảnh cho khu vực Hero đầu trang (bạn chỉ cần dán link ảnh vào imageUrl)
+    const HERO_CONFIG = {
+      imageUrl: '',
+      altText: 'Không gian và đồ uống tại Slime Coffee'
+    };
+
+    // Icon Vector SVG đồng bộ màu sắc giao diện
+    const VECTOR_ICONS = {
+      drink: `<svg class="ui-icon" width="28" height="28" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M17 8h1a4 4 0 1 1 0 8h-1"></path>
+                <path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z"></path>
+                <line x1="6" y1="2" x2="6" y2="4"></line>
+                <line x1="10" y1="2" x2="10" y2="4"></line>
+                <line x1="14" y1="2" x2="14" y2="4"></line>
+              </svg>`,
+      dessert: `<svg class="ui-icon" width="28" height="28" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M20 21v-8a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8"></path>
+                  <path d="M4 16s.5-1 2-1 2.5 2 4 2 2.5-2 4-2 2.5 2 4 2 2-1 2-1"></path>
+                  <path d="M2 21h20"></path>
+                  <path d="M7 8v3"></path>
+                  <path d="M12 8v3"></path>
+                  <path d="M17 8v3"></path>
+                  <path d="M7 4h.01"></path>
+                  <path d="M12 4h.01"></path>
+                  <path d="M17 4h.01"></path>
+                </svg>`,
+      check: `<svg class="ui-icon" width="14" height="14" viewBox="0 0 24 24" aria-hidden="true">
+                <polyline points="20 6 9 17 4 12"></polyline>
+              </svg>`
+    };
+
+    // Dữ liệu sản phẩm tập trung: đã gộp thành 2 nhóm chính 'drink' (Đồ uống) và 'dessert' (Bánh ngọt)
     const MENU_ITEMS = [
       {
         id: 1,
         name: 'Mint Slime Cream Latte',
         category: 'drink',
         price: 45000,
-        icon: '🍵',
+        imageUrl: '',
         badge: 'Đặc trưng',
         isBestSeller: true,
         desc: 'Cà phê sữa êm dịu kết hợp lớp kem bọt bạc hà mát lạnh đặc trưng.'
@@ -1434,7 +431,7 @@
         name: 'Chocolate Lava Croissant',
         category: 'dessert',
         price: 49000,
-        icon: '🥐',
+        imageUrl: '',
         badge: 'Bán chạy',
         isBestSeller: true,
         desc: 'Bánh sừng bò nướng giòn rụm với nhân sốt sô-cô-la nguyên chất tan chảy.'
@@ -1444,17 +441,17 @@
         name: 'Slime Pudding Bạc Hà',
         category: 'dessert',
         price: 39000,
-        icon: '🍮',
+        imageUrl: '',
         badge: 'Yêu thích',
         isBestSeller: true,
-        desc: 'Pudding mềm mịn núng nính tạo hình linh vật Slime ngộ nghĩnh.'
+        desc: 'Pudding mềm mịn núng nính tạo hình chú Slime xanh mint ngộ nghĩnh.'
       },
       {
         id: 4,
         name: 'Strawberry Cloud Smoothie',
         category: 'drink',
         price: 52000,
-        icon: '🍓',
+        imageUrl: '',
         badge: 'Mới',
         isBestSeller: false,
         desc: 'Sinh tố dâu tây tươi mát cùng lớp kem sữa bồng bềnh như mây.'
@@ -1462,9 +459,9 @@
       {
         id: 5,
         name: 'Trà Đào Cam Sả Mật Ong',
-        category: 'tea',
+        category: 'drink',
         price: 42000,
-        icon: '🍑',
+        imageUrl: '',
         badge: 'Thanh mát',
         isBestSeller: false,
         desc: 'Trà ủ lạnh thanh nhiệt kết hợp cùng đào miếng giòn ngọt.'
@@ -1474,7 +471,7 @@
         name: 'Caramel Cream Cold Brew',
         category: 'drink',
         price: 48000,
-        icon: '☕',
+        imageUrl: '',
         badge: 'Đậm đà',
         isBestSeller: false,
         desc: 'Cà phê ủ lạnh 16 giờ phủ lớp kem béo caramel thơm lừng.'
@@ -1484,7 +481,7 @@
         name: 'Bánh Mousse Matcha Slime',
         category: 'dessert',
         price: 46000,
-        icon: '🍵',
+        imageUrl: '',
         badge: 'Mềm mịn',
         isBestSeller: false,
         desc: 'Bánh mousse trà xanh thanh vị, trang trí Slime ngọt ngào.'
@@ -1492,17 +489,15 @@
       {
         id: 8,
         name: 'Trà Hoa Cúc Tuyết Lê',
-        category: 'tea',
+        category: 'drink',
         price: 40000,
-        icon: '🌼',
+        imageUrl: '',
         badge: 'Dịu ngọt',
         isBestSeller: false,
         desc: 'Hương hoa cúc thanh tịnh quyện cùng vị ngọt mát từ lê tuyết tươi.'
       }
     ];
 
-    // Trạng thái số lượng món đang chọn: { [itemId]: quantity }
-    // Mặc định số lượng của mỗi món là 0
     let itemQuantities = {};
     MENU_ITEMS.forEach(item => {
       itemQuantities[item.id] = 0;
@@ -1512,7 +507,7 @@
     let isSubmitting = false;
 
     /* ==========================================================================
-       2. SVG MASCOT INJECTION HELPER
+       2. SVG MASCOT & IMAGE COMPONENT HELPERS
        ========================================================================== */
     function injectMascotSVGs() {
       const template = document.getElementById('slime-mascot-template');
@@ -1529,7 +524,59 @@
       });
     }
 
-    // Định dạng tiền tệ VND đồng nhất
+    // Helper render hình ảnh khu vực Hero với icon SVG đơn sắc khi chưa có ảnh
+    function renderHeroMedia() {
+      const container = document.getElementById('heroImageContainer');
+      if (!container) return;
+
+      if (HERO_CONFIG.imageUrl && HERO_CONFIG.imageUrl.trim() !== '') {
+        container.innerHTML = `
+          <img class="hero-img"
+               src="${HERO_CONFIG.imageUrl}"
+               alt="${HERO_CONFIG.altText}"
+               onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+          <div class="hero-image-placeholder" style="display: none;">
+            <span class="hero-placeholder-icon">${VECTOR_ICONS.drink}</span>
+            <span class="hero-placeholder-text">Hình ảnh Slime Coffee</span>
+            <span class="hero-placeholder-sub">Không gian & đồ uống thực tế</span>
+          </div>
+        `;
+      } else {
+        container.innerHTML = `
+          <div class="hero-image-placeholder">
+            <span class="hero-placeholder-icon">${VECTOR_ICONS.drink}</span>
+            <span class="hero-placeholder-text">Hình ảnh Slime Coffee</span>
+            <span class="hero-placeholder-sub">Không gian & đồ uống thực tế</span>
+          </div>
+        `;
+      }
+    }
+
+    // Helper tạo markup hình ảnh sản phẩm với fallback icon vector theo danh mục
+    function renderProductImageMarkup(item) {
+      const categoryIcon = item.category === 'dessert' ? VECTOR_ICONS.dessert : VECTOR_ICONS.drink;
+
+      if (item.imageUrl && item.imageUrl.trim() !== '') {
+        return `
+          <img class="product-img"
+               src="${item.imageUrl}"
+               alt="${item.name}"
+               loading="lazy"
+               onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+          <div class="product-placeholder" style="display: none;">
+            <span class="placeholder-icon">${categoryIcon}</span>
+            <span class="placeholder-text">${item.name}</span>
+          </div>
+        `;
+      }
+      return `
+        <div class="product-placeholder">
+          <span class="placeholder-icon">${categoryIcon}</span>
+          <span class="placeholder-text">${item.name}</span>
+        </div>
+      `;
+    }
+
     function formatVND(amount) {
       return (Number(amount) || 0).toLocaleString('vi-VN') + ' đ';
     }
@@ -1541,18 +588,15 @@
       const validPages = ['home', 'menu', 'history'];
       const target = validPages.includes(pageId) ? pageId : 'home';
 
-      // Ẩn tất cả các page view
       document.querySelectorAll('.page-view').forEach(view => {
         view.classList.remove('active');
       });
 
-      // Hiện view được chọn
       const activeView = document.getElementById('view' + target.charAt(0).toUpperCase() + target.slice(1));
       if (activeView) {
         activeView.classList.add('active');
       }
 
-      // Cập nhật trạng thái active trên thanh điều hướng
       document.querySelectorAll('.nav-link-btn').forEach(btn => {
         btn.classList.remove('active');
       });
@@ -1561,24 +605,20 @@
         currentNavBtn.classList.add('active');
       }
 
-      // Đóng mobile menu nếu đang mở
-      document.getElementById('navLinks').classList.remove('open');
+      const navLinks = document.getElementById('navLinks');
+      if (navLinks) navLinks.classList.remove('open');
 
-      // Cuộn lên đầu trang
       window.scrollTo({ top: 0, behavior: 'smooth' });
 
-      // Cập nhật hash trên URL mà không gây reload
       if (window.location.hash !== '#' + target) {
         window.history.pushState(null, '', '#' + target);
       }
 
-      // Nếu chuyển tới trang History, làm mới danh sách
       if (target === 'history') {
         renderOrderHistory();
       }
     }
 
-    // Xử lý sự kiện back/forward trình duyệt dựa theo hash
     window.addEventListener('hashchange', () => {
       const hash = window.location.hash.replace('#', '');
       navigateTo(hash || 'home');
@@ -1591,14 +631,13 @@
       const container = document.getElementById('bestSellerGrid');
       if (!container) return;
 
-      // Lọc các món bán chạy từ dữ liệu chính thức có trường isBestSeller = true
       const bestSellers = MENU_ITEMS.filter(item => item.isBestSeller === true);
 
       container.innerHTML = bestSellers.map(item => `
         <article class="product-card">
           <div class="product-thumb">
-            <span>${item.icon}</span>
-            <span class="badge badge-strawberry product-tag">✦ Best Seller</span>
+            ${renderProductImageMarkup(item)}
+            <span class="badge badge-strawberry product-tag">Best Seller</span>
           </div>
           <div class="product-body">
             <h3 class="product-title">${item.name}</h3>
@@ -1635,7 +674,7 @@
               <span class="mascot-slot" data-size="90"></span>
             </div>
             <h3 class="empty-state-title">Không tìm thấy món phù hợp!</h3>
-            <p class="empty-state-desc">Bạn thử tìm với từ khóa khác hoặc chọn mục "Tất cả" nhé.</p>
+            <p class="empty-state-desc">Bạn thử tìm với từ khóa khác hoặc chọn lại mục "Tất cả" nhé.</p>
           </div>
         `;
         injectMascotSVGs();
@@ -1649,7 +688,7 @@
         return `
           <article class="product-card ${hasSelected ? 'has-selected' : ''}" id="product-card-${item.id}">
             <div class="product-thumb">
-              <span>${item.icon}</span>
+              ${renderProductImageMarkup(item)}
               <span class="badge ${item.isBestSeller ? 'badge-strawberry' : 'badge-mustard'} product-tag">
                 ${item.badge}
               </span>
@@ -1660,7 +699,6 @@
               <div class="product-footer">
                 <span class="product-price">${formatVND(item.price)}</span>
 
-                <!-- Bộ điều khiển số lượng: nút trừ −, số lượng, nút cộng + -->
                 <div class="qty-stepper" role="group" aria-label="Điều chỉnh số lượng món ${item.name}">
                   <button class="qty-btn"
                           onclick="updateQuantity(${item.id}, -1)"
@@ -1681,15 +719,12 @@
       updateOrderSummaryBar();
     }
 
-    // Tăng / giảm số lượng
     function updateQuantity(itemId, change) {
       const current = itemQuantities[itemId] || 0;
       const next = current + change;
 
-      // Số lượng không được nhỏ hơn 0
       itemQuantities[itemId] = Math.max(0, next);
 
-      // Cập nhật hiển thị riêng cho thẻ sản phẩm đó để mượt mà
       const qtyEl = document.getElementById(`qty-display-${itemId}`);
       const cardEl = document.getElementById(`product-card-${itemId}`);
       if (qtyEl) {
@@ -1710,7 +745,6 @@
       updateOrderSummaryBar();
     }
 
-    // Lấy danh sách các món đã chọn (số lượng > 0)
     function getSelectedItems() {
       return MENU_ITEMS
         .filter(item => (itemQuantities[item.id] || 0) > 0)
@@ -1721,7 +755,6 @@
         }));
     }
 
-    // Cập nhật thanh tóm tắt & nút "Chọn món"
     function updateOrderSummaryBar() {
       const selected = getSelectedItems();
       const totalQty = selected.reduce((sum, item) => sum + item.quantity, 0);
@@ -1771,15 +804,13 @@
       modalBackdrop.classList.add('open');
     }
 
-    // Nút "Hủy" hoặc đóng popup: Giữ nguyên lựa chọn, không tạo đơn
     function cancelConfirmModal() {
       const modalBackdrop = document.getElementById('confirmModalBackdrop');
       modalBackdrop.classList.remove('open');
-      // Tuyệt đối KHÔNG xóa lựa chọn hiện tại để khách có thể chỉnh sửa lại
     }
 
     /* ==========================================================================
-       7. TẠO VÀ LƯU ĐƠN HÀNG (LOCALSTORAGE & FALLBACK API)
+       7. TẠO VÀ LƯU ĐƠN HÀNG (LOCALSTORAGE)
        ========================================================================== */
     function generateUniqueOrderId() {
       const datePart = new Date().toISOString().slice(2, 10).replace(/-/g, '');
@@ -1808,7 +839,7 @@
     }
 
     async function executeOrderCreation() {
-      if (isSubmitting) return; // Chống bấm xác nhận liên tục nhiều lần
+      if (isSubmitting) return;
 
       const selected = getSelectedItems();
       if (selected.length === 0) {
@@ -1821,7 +852,7 @@
       const submitBtn = document.getElementById('btnConfirmSubmit');
       const originalText = submitBtn.innerHTML;
       submitBtn.disabled = true;
-      submitBtn.innerHTML = 'Đang lưu đơn... ⏳';
+      submitBtn.innerHTML = '<span>Đang lưu đơn...</span>';
 
       const totalAmount = selected.reduce((sum, i) => sum + i.subtotal, 0);
       const newOrder = {
@@ -1844,7 +875,6 @@
       };
 
       try {
-        // Đọc danh sách đơn hàng đã có và thêm đơn mới vào đầu danh sách
         const currentOrders = getStoredOrders();
         currentOrders.unshift(newOrder);
 
@@ -1853,18 +883,15 @@
           throw new Error('Không thể lưu đơn hàng vào thiết bị.');
         }
 
-        // Đóng popup xác nhận
         cancelConfirmModal();
 
-        // Hiển thị popup thành công với mã đơn hàng duy nhất
         document.getElementById('successOrderIdDisplay').textContent = `#${newOrder.orderId}`;
         const successModal = document.getElementById('successModalBackdrop');
         successModal.classList.add('open');
 
-        // Cập nhật số đơn trên header badge
         updateNavOrderBadge();
       } catch (error) {
-        alert('Đã xảy ra lỗi khi tạo đơn hàng: ' + error.message + '\nLựa chọn của bạn vẫn được giữ nguyên để thử lại.');
+        alert('Đã xảy ra lỗi khi tạo đơn hàng: ' + error.message);
       } finally {
         isSubmitting = false;
         submitBtn.disabled = false;
@@ -1873,21 +900,17 @@
     }
 
     /* ==========================================================================
-       8. XỬ LÝ SAU KHI ĐẶT ĐƠN THÀNH CÔNG (HOÀN TẤT HOẶC XEM LỊCH SỬ)
+       8. XỬ LÝ SAU KHI ĐẶT ĐƠN THÀNH CÔNG
        ========================================================================== */
     function completeOrderFlow(destination) {
-      // Đóng popup thành công
       document.getElementById('successModalBackdrop').classList.remove('open');
 
-      // Xóa lựa chọn món hiện tại để chuẩn bị cho lần đặt tiếp theo
       MENU_ITEMS.forEach(item => {
         itemQuantities[item.id] = 0;
       });
 
-      // Render lại giao diện Menu với số lượng được đặt lại
       renderProducts();
 
-      // Điều hướng theo lựa chọn của khách
       if (destination === 'history') {
         navigateTo('history');
       } else {
@@ -1896,7 +919,7 @@
     }
 
     /* ==========================================================================
-       9. TRANG LỊCH SỬ ORDER (CHỈ HIỂN THỊ MÃ ĐƠN, KHÔNG CÓ SỐ BÀN)
+       9. TRANG LỊCH SỬ ĐƠN HÀNG
        ========================================================================== */
     function renderOrderHistory() {
       const container = document.getElementById('historyList');
@@ -1913,7 +936,11 @@
             <h3 class="empty-state-title">Bạn chưa có đơn hàng nào!</h3>
             <p class="empty-state-desc">Hãy khám phá thực đơn thơm ngon và đặt cho mình món yêu thích nhé.</p>
             <button class="btn btn-primary" onclick="navigateTo('menu')">
-              Khám phá Menu ✦
+              <span>Khám phá Menu</span>
+              <svg class="ui-icon" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
             </button>
           </div>
         `;
@@ -1921,8 +948,6 @@
         return;
       }
 
-      // Danh sách thẻ đơn giản, mã đơn mới nhất xuất hiện đầu danh sách
-      // Yêu cầu: Không hiển thị số bàn, không hiển thị danh sách món/thanh toán ngoài phạm vi
       container.innerHTML = orders.map(order => `
         <div class="history-card">
           <div class="history-code-group">
@@ -1935,7 +960,8 @@
             </div>
           </div>
           <span class="badge badge-mint" style="font-size: 0.85rem; padding: 0.4rem 0.9rem;">
-            ✦ Đã đặt thành công
+            ${VECTOR_ICONS.check}
+            <span>Đã đặt thành công</span>
           </span>
         </div>
       `).join('');
@@ -1958,7 +984,6 @@
     /* ==========================================================================
        10. EVENT LISTENERS & INITIALIZATION
        ========================================================================== */
-    // Lọc danh mục món
     document.getElementById('categoryTabs').addEventListener('click', e => {
       const btn = e.target.closest('.tab-btn');
       if (!btn) return;
@@ -1968,17 +993,14 @@
       renderProducts();
     });
 
-    // Tìm kiếm món
     document.getElementById('searchInput').addEventListener('input', () => {
       renderProducts();
     });
 
-    // Toggle menu trên thiết bị di động
     document.getElementById('mobileMenuToggle').addEventListener('click', () => {
       document.getElementById('navLinks').classList.toggle('open');
     });
 
-    // Đóng popup khi bấm phím Escape
     window.addEventListener('keydown', e => {
       if (e.key === 'Escape') {
         const confirmModal = document.getElementById('confirmModalBackdrop');
@@ -1988,14 +1010,13 @@
       }
     });
 
-    // Khởi tạo ban đầu khi trang tải xong
     document.addEventListener('DOMContentLoaded', () => {
       injectMascotSVGs();
+      renderHeroMedia();
       renderBestSellers();
       renderProducts();
       updateNavOrderBadge();
 
-      // Đọc hash ban đầu
       const initialHash = window.location.hash.replace('#', '');
       if (initialHash && ['home', 'menu', 'history'].includes(initialHash)) {
         navigateTo(initialHash);
@@ -2004,8 +1025,8 @@
       }
     });
 
-    // Chạy render ngay trong trường hợp DOM đã sẵn sàng
     injectMascotSVGs();
+    renderHeroMedia();
     renderBestSellers();
     renderProducts();
     updateNavOrderBadge();
