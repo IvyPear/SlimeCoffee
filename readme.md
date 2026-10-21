@@ -11,7 +11,7 @@
 ## 1. Bối cảnh Ứng dụng & Nguồn Mã nguồn (Project Overview & Source)
 
 ### 1.1. Bối cảnh Ứng dụng
-**Slime Coffee** là ứng dụng Web đặt món cà phê và bánh ngọt trực tuyến, được lấy cảm hứng từ linh vật *Slime Bá Vương* thân thiện. Hệ thống cho phép khách hàng:
+**Slime Coffee** là ứng dụng Web đặt món cà phê và bánh ngọt trực tuyến, được lấy cảm hứng từ linh vật *Slime Bá Vương* thân thiện. Hệ thống phục vụ các chức năng chính:
 - Xem thông tin giới thiệu, câu chuyện thương hiệu và danh sách món bán chạy (**Best Seller**).
 - Duyệt thực đơn món (Đồ uống, Bánh ngọt), tăng giảm số lượng món và mở popup kiểm tra tổng tiền dự kiến.
 - Đặt món trực tuyến: Hệ thống tự động sinh mã đơn duy nhất (`orderId` dạng `#SC-YYMMDD-XXXX`) và thực hiện thao tác **Ghi (WRITE)** vào cơ sở dữ liệu quan hệ MySQL.
@@ -25,7 +25,7 @@
 - **Phạm vi tự triển khai:**
   - Khởi dựng môi trường máy chủ Linux (Ubuntu 24.04 LTS).
   - Cấu hình mạng, phân quyền cổng và thiết lập chính sách tường lửa bảo vệ hệ thống (`UFW`).
-  - Cài đặt, tối ưu và bảo mật cơ sở dữ liệu MySQL (phân quyền user riêng, tạo bảng `orders`).
+  - Cài đặt, cấu hình và bảo mật cơ sở dữ liệu MySQL (phân quyền user riêng, tạo bảng `orders`).
   - Tách biệt bí mật hệ thống và cấu hình thông qua biến môi trường (`.env`), cam kết không hard-code thông tin nhạy cảm lên Git.
   - Kết nối ứng dụng với Database, chứng minh đọc/ghi bản ghi thực tế.
 
@@ -33,23 +33,17 @@
 
 ## 2. Bảng Phân công Nhiệm vụ Thành viên (Team Responsibilities)
 
-## 2. Bảng Phân công Nhiệm vụ Thành viên (Team Responsibilities)
-
 | STT | Họ và Tên | Mã Sinh Viên | Vai trò chính | Nhiệm vụ cụ thể (Tuần 1) |
 | :-: | :--- | :-: | :--- | :--- |
 | 1 | **Nguyễn Ánh Ngọc** | *23090016* | **Backend & Database** | - Xây dựng REST API bằng Express (`server.js`) xử lý các endpoint: `POST /api/orders` (ghi đơn) và `GET /api/orders` (đọc lịch sử).<br>- Khởi tạo cơ sở dữ liệu `slime_coffee`, thiết kế bảng `orders`.<br>- Cấu hình tài khoản người dùng nội bộ `slime_user`, phân quyền hợp lý và kết nối bảo mật qua biến môi trường `.env`. |
-| 2 | **Nguyễn Thị Quỳnh Mỹ** | *23090034* | **Frontend & Ubuntu Deployment** | - Xây dựng và hoàn thiện giao diện người dùng (`index.html`, `style.css`) theo bộ nhận diện Slime Coffee.<br>- Triển khai ứng dụng trên máy chủ Ubuntu, cấu hình và kích hoạt tường lửa `UFW` (mở port 22, port 3000, bảo mật port 3306). |
+| 2 | **Nguyễn Thị Quỳnh Mỹ** | *23090034* | **Frontend & Ubuntu Deployment** | - Xây dựng và hoàn thiện giao diện người dùng (`index.html`, `style.css`) theo bộ nhận diện Slime Coffee.<br>- Triển khai ứng dụng trên máy chủ Ubuntu, cấu hình và kích hoạt tường lửa `UFW` (mở port 22, port 3000, bảo mật port 3306).<br>- Kiểm thử luồng gọi API và thu thập hình ảnh/video minh chứng hoạt động. |
 | 3 | **Trương Thủy Lam** | *23090018* | **System Architecture** | - Khảo sát và thiết kế sơ đồ kiến trúc triển khai hệ thống (Client, Network/Firewall, Ubuntu Server, App, Database, Storage).<br>- Phân tích luồng truyền nhận dữ liệu, giải thích cơ chế bảo mật và đóng gói tài liệu sơ đồ kiến trúc (`architecture.png`/`pdf`).<br>- Hỗ trợ kiểm tra tài liệu và chuẩn bị nội dung kỹ thuật cho buổi bảo vệ (defense). |
 
 ---
 
-## 3. Kiến trúc Triển khai (Deployment Architecture)
-
-Kiến trúc triển khai Tuần 1 tuân thủ mô hình phân tầng chặt chẽ: **Client → Firewall (UFW) → Ubuntu Server → Web/API (Node.js) → Database (MySQL) → Persistent Storage**.
-
 ## 3. Kiến trúc Triển khai (Deployment Architecture — Week 1)
 
-Hệ thống được thiết kế theo mô hình phân tầng rõ ràng từ Client đến Database và Storage:
+Kiến trúc triển khai Tuần 1 tuân thủ mô hình phân tầng chặt chẽ: **Client → Firewall (UFW) → Ubuntu Server → Web/API (Node.js) → Database (MySQL) → Persistent Storage**.
 
 ```mermaid
 flowchart TB
@@ -87,7 +81,7 @@ flowchart TB
     Env -. "Cấp biến môi trường" .-> NodeApp
     NodeApp -- "Đọc/Ghi dữ liệu (TCP 127.0.0.1:3306)" --> MySQL
     MySQL -- "Ghi/Đọc dữ liệu vật lý" --> Disk
-*(Sơ đồ định dạng hình ảnh và PDF được lưu trữ độc lập tại: `architecture.png` và `architecture.pdf`).*
+```
 
 ---
 
@@ -109,7 +103,7 @@ flowchart TB
 
 ## 5. Hướng dẫn Triển khai Thủ công Chi tiết (Step-by-Step Manual Deployment)
 
-Hướng dẫn này dành cho việc cài đặt và tái tạo ứng dụng trên một máy chủ Ubuntu mới hoàn toàn.
+Hướng dẫn này dùng để cài đặt và tái tạo ứng dụng trên một máy chủ Ubuntu mới hoàn toàn.
 
 ### Bước 1: Cấu hình Tường lửa (UFW Firewall)
 Cập nhật danh sách gói và thiết lập tường lửa bảo vệ máy chủ:
@@ -149,7 +143,7 @@ sudo service mysql status
 sudo mysql -u root
 ```
 
-Dán toàn bộ đoạn mã SQL bên dưới để khởi tạo:
+Thực thi khối lệnh SQL sau:
 ```sql
 -- 1. Tạo cơ sở dữ liệu
 CREATE DATABASE IF NOT EXISTS slime_coffee CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -180,7 +174,7 @@ EXIT;
 ### Bước 4: Tải Mã nguồn & Cấu hình Biến môi trường
 Clone repository của nhóm về máy chủ:
 ```bash
-git clone https://github.com/IvyPear/SlimeCoffee.git
+git clone [https://github.com/IvyPear/SlimeCoffee.git](https://github.com/IvyPear/SlimeCoffee.git)
 cd SlimeCoffee
 
 # Cài đặt các thư viện dependencies (express, mysql2, dotenv)
@@ -224,12 +218,12 @@ Hệ thống đã triển khai thành công và sẵn sàng nhận kết nối t
 ### 6.1. Kiểm thử Đọc/Ghi dữ liệu qua Giao diện Web
 1. Mở trình duyệt web và truy cập vào địa chỉ: `http://<IP_MAY_CHU>:3000` (hoặc domain chuyển tiếp cổng từ Codespaces).
 2. Chuyển sang trang **Menu**, chọn món bằng nút `+` (ví dụ: *1x Mint Slime Cream Latte*, *1x Slime Pudding Bạc Hà*).
-3. Bấm vào thanh nổi **"Chọn món"** → bấm nút **"Xác nhận đặt món"**.
-4. Ứng dụng gửi HTTP POST request đến `/api/orders`. Nếu ghi dữ liệu thành công, popup **"Đặt Món Thành Công!"** sẽ hiển thị kèm mã đơn hàng duy nhất (ví dụ: `#SC-261018-4821`).
+3. Bấm vào thanh nổi **"Chọn món"** → xem lại danh sách trong popup → bấm **"Xác nhận đặt món"**.
+4. Ứng dụng gửi HTTP POST request đến `/api/orders`. Khi ghi dữ liệu thành công, popup **"Đặt Món Thành Công!"** hiển thị kèm mã đơn hàng duy nhất (ví dụ: `#SC-261018-4821`).
 5. Chuyển sang mục **"Lịch sử đơn hàng"**, hệ thống gửi HTTP GET request đến `/api/orders` và hiển thị mã đơn hàng vừa tạo lên đầu danh sách.
 
 ### 6.2. Minh chứng Kiểm tra Bản ghi Trực tiếp trong MySQL
-Để xác minh dữ liệu đã được ghi bền vững vào cơ sở dữ liệu vật lý trên máy chủ:
+Xác minh dữ liệu đã được lưu bền vững vào bảng vật lý trong MySQL:
 ```bash
 sudo mysql -u slime_user -p221105 -D slime_coffee -e "SELECT id, order_id, total_amount, created_at, status FROM orders;"
 ```
@@ -252,10 +246,7 @@ SlimeCoffee/
 ├── public/
 │   ├── index.html          # Giao diện SPA (Trang chủ, Menu, Lịch sử đơn hàng, Popups)
 │   └── style.css           # Bảng mã CSS Design Tokens nhận diện Slime Coffee
-├── docs/
-│   ├── architecture.png    # Sơ đồ kiến trúc triển khai hệ thống định dạng hình ảnh
-│   └── architecture.pdf    # Sơ đồ kiến trúc triển khai hệ thống định dạng PDF
-├── .env            # Cấu hình biến môi trường mẫu (không có mật khẩu thật)
+├── .env            # Cấu hình biến môi trường mẫu (không chứa mật khẩu thật)
 ├── package.json            # Khai báo cấu hình dự án và dependencies
 ├── package-lock.json       # Khóa phiên bản thư viện chính xác
 ├── server.js               # Backend REST API kết nối MySQL Server
@@ -266,6 +257,6 @@ SlimeCoffee/
 
 ## 8. Nguyên tắc An toàn & Bảo mật (Security Guidelines)
 
-- **Không đưa thông tin bí mật lên Git:** File `.env` chứa mật khẩu database đã được cấu hình trong `.gitignore` để không bao giờ bị đẩy lên GitHub repository.
+- **Không đưa thông tin bí mật lên Git:** File `.env` chứa mật khẩu database đã được cấu hình trong `.gitignore` để không bị đẩy lên GitHub repository. Chỉ giữ file `.env.example` làm mẫu cấu hình.
 - **Nguyên tắc phân quyền tối thiểu (Least Privilege):** Ứng dụng Node.js kết nối vào database qua tài khoản riêng `slime_user`, không sử dụng tài khoản `root` của hệ điều hành hay database.
-- **Bảo mật cổng nội bộ:** Cổng `3306` của MySQL không được mở ra Internet thông qua UFW, chỉ cho phép tiến trình Node.js nội bộ kết nối qua `127.0.0.1`.
+- **Bảo mật cổng nội bộ:** Cổng `3306` của MySQL không mở ra Internet thông qua UFW, chỉ cho phép tiến trình Node.js nội bộ kết nối qua `127.0.0.1`.
