@@ -1,0 +1,10 @@
+CREATE DATABASE IF NOT EXISTS slime_coffee CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+USE slime_coffee;
+CREATE TABLE IF NOT EXISTS orders (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  order_id VARCHAR(50) NOT NULL UNIQUE,
+  items JSON NOT NULL,
+  total_amount INT NOT NULL,
+  created_at VARCHAR(50) NOT NULL,
+  status VARCHAR(30) DEFAULT 'SUCCESS'
+);

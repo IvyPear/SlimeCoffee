@@ -97,3 +97,4 @@ initMySQL().then(() => {
     console.log(`Slime Coffee Server đang chạy tại http://localhost:${PORT}`);
   });
 });
+module.exports = app;

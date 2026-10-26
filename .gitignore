@@ -4,3 +4,4 @@ npm-debug.log*
 *.log
 .npm/
 .DS_Store
+actions-runner/

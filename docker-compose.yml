@@ -1,0 +1,41 @@
+version: '3.8'
+services:
+  db:
+    image: mysql:8.0
+    container_name: slime_mysql
+    restart: always
+    environment:
+      MYSQL_DATABASE: slime_coffee
+      MYSQL_USER: slime_user
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - slime_network
+
+  app:
+    build: .
+    container_name: slime_app
+    restart: always
+    ports:
+      - "3000:3000"
+    environment:
+      - DB_HOST=db
+      - DB_PORT=3306
+      - DB_USER=slime_user
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_NAME=slime_coffee
+    depends_on:
+      - db
+    networks:
+      - slime_network
+
+volumes:
+  db_data:
+networks:
+  slime_network:
+    driver: bridge
