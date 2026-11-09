@@ -18,7 +18,7 @@ jobs:
 
   deploy:
     needs: build-and-test
-    runs-on: ubuntu-latest # <--- Chỉ cần sửa dòng này
+    runs-on: ubuntu-latest # 
     steps:
       - uses: actions/checkout@v3
       - run: sudo service mysql stop || true
