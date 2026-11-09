@@ -1,0 +1,89 @@
+{
+    "apiVersion": 1,
+    "groups": [
+        {
+            "orgId": 1,
+            "name": "Nhom_Kiem_Tra_CPU",
+            "folder": "Thu_Muc_Bao_Dong",
+            "interval": "1m",
+            "rules": [
+                {
+                    "uid": "fg32z6y32mebkc",
+                    "title": "Canh_Bao_CPU_Qua_Tai",
+                    "condition": "C",
+                    "data": [
+                        {
+                            "refId": "A",
+                            "relativeTimeRange": {
+                                "from": 600,
+                                "to": 0
+                            },
+                            "datasourceUid": "cg32vqmespiwwa",
+                            "model": {
+                                "editorMode": "code",
+                                "expr": "sum(rate(container_cpu_usage_seconds_total{name=~\"slime.*\"}[1m])) by (name) * 100",
+                                "instant": true,
+                                "intervalMs": 1000,
+                                "legendFormat": "__auto",
+                                "maxDataPoints": 43200,
+                                "range": false,
+                                "refId": "A"
+                            }
+                        },
+                        {
+                            "refId": "C",
+                            "queryType": "expression",
+                            "relativeTimeRange": {
+                                "from": 0,
+                                "to": 0
+                            },
+                            "datasourceUid": "__expr__",
+                            "model": {
+                                "conditions": [
+                                    {
+                                        "evaluator": {
+                                            "params": [
+                                                80
+                                            ],
+                                            "type": "gt"
+                                        },
+                                        "operator": {
+                                            "type": "and"
+                                        },
+                                        "query": {
+                                            "params": [
+                                                "C"
+                                            ]
+                                        },
+                                        "reducer": {
+                                            "params": [],
+                                            "type": "last"
+                                        },
+                                        "type": "query"
+                                    }
+                                ],
+                                "datasource": {
+                                    "type": "__expr__",
+                                    "uid": "__expr__"
+                                },
+                                "expression": "A",
+                                "intervalMs": 1000,
+                                "maxDataPoints": 43200,
+                                "refId": "C",
+                                "type": "threshold"
+                            }
+                        }
+                    ],
+                    "noDataState": "NoData",
+                    "execErrState": "Error",
+                    "annotations": {},
+                    "labels": {},
+                    "isPaused": false,
+                    "notification_settings": {
+                        "receiver": "Lét gầu"
+                    }
+                }
+            ]
+        }
+    ]
+}
