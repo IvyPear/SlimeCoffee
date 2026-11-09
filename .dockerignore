@@ -1,0 +1,6 @@
+node_modules
+npm-debug.log
+grafana_data
+prometheus_data
+db_data
+.git

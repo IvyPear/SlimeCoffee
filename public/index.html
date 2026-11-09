@@ -365,11 +365,16 @@
         <strong style="font-family: var(--font-display); font-size: 1.4rem;">Slime Coffee</strong>
         <p style="font-size: 0.9rem; opacity: 0.85;">Góc nhỏ đồ uống mát lành & bánh ngọt thơm ngon.</p>
       </div>
-      <nav class="footer-nav" aria-label="Điều hướng chân trang">
-        <button class="footer-nav-link" onclick="navigateTo('home')">Trang chủ</button>
-        <button class="footer-nav-link" onclick="navigateTo('menu')">Menu</button>
-        <button class="footer-nav-link" onclick="navigateTo('history')">Lịch sử đơn hàng</button>
-      </nav>
+
+      <!-- Đã thay Menu trùng lặp bằng Thông tin liên hệ -->
+      <div class="footer-contact" style="text-align: right; line-height: 1.5;">
+        <p style="margin-bottom: 0.4rem; font-size: 0.95rem;">
+          <strong style="color: var(--color-mint);">Hotline:</strong> 1900-0506
+        </p>
+        <p style="font-size: 0.95rem;">
+          <strong style="color: var(--color-mint);">Địa chỉ:</strong> 200 đường Bá Khí, quận Dự Án Ma
+        </p>
+      </div>
     </div>
   </footer>
 
@@ -384,7 +389,7 @@
 
     // Cấu hình hình ảnh cho khu vực Hero đầu trang
     const HERO_CONFIG = {
-      imageUrl: '',
+      imageUrl: 'https://i.pinimg.com/736x/d4/07/64/d4076447466ba21be5dba82886686aa4.jpg',
       altText: 'Không gian và đồ uống tại Slime Coffee'
     };
 
@@ -418,9 +423,9 @@
       {
         id: 1,
         name: 'Mint Slime Cream Latte',
-        category: 'drink',
+        category: 'drink', // Đồ uống
         price: 45000,
-        imageUrl: '',
+        imageUrl: 'https://i.pinimg.com/736x/77/3f/6b/773f6bf12fde924b7a927673fcbd5590.jpg',
         badge: 'Đặc trưng',
         isBestSeller: true,
         desc: 'Cà phê sữa êm dịu kết hợp lớp kem bọt bạc hà mát lạnh đặc trưng.'
@@ -428,9 +433,9 @@
       {
         id: 2,
         name: 'Chocolate Lava Croissant',
-        category: 'dessert',
+        category: 'dessert', // Bánh ngọt
         price: 49000,
-        imageUrl: '',
+        imageUrl: 'https://i.pinimg.com/736x/43/7a/b6/437ab647a63c2e277a8f333535c672b5.jpg',
         badge: 'Bán chạy',
         isBestSeller: true,
         desc: 'Bánh sừng bò nướng giòn rụm với nhân sốt sô-cô-la nguyên chất tan chảy.'
@@ -438,9 +443,9 @@
       {
         id: 3,
         name: 'Slime Pudding Bạc Hà',
-        category: 'dessert',
+        category: 'dessert', // Bánh ngọt
         price: 39000,
-        imageUrl: '',
+        imageUrl: 'https://i.pinimg.com/736x/fd/40/fd/fd40fd219622735571c55e24e56b64ff.jpg',
         badge: 'Yêu thích',
         isBestSeller: true,
         desc: 'Pudding mềm mịn núng nính tạo hình chú Slime xanh mint ngộ nghĩnh.'
@@ -448,29 +453,29 @@
       {
         id: 4,
         name: 'Strawberry Cloud Smoothie',
-        category: 'drink',
+        category: 'drink', // Đồ uống
         price: 52000,
-        imageUrl: '',
+        imageUrl: 'https://i.pinimg.com/1200x/09/25/0c/09250c004c311718433c9c5017534633.jpg',
         badge: 'Mới',
         isBestSeller: false,
         desc: 'Sinh tố dâu tây tươi mát cùng lớp kem sữa bồng bềnh như mây.'
       },
       {
         id: 5,
-        name: 'Trà Đào Cam Sả Mật Ong',
-        category: 'drink',
-        price: 42000,
-        imageUrl: '',
-        badge: 'Thanh mát',
+        name: 'Strawberry Milk',
+        category: 'drink', // Đồ uống (Món mới)
+        price: 45000,
+        imageUrl: 'https://i.pinimg.com/1200x/9f/b8/0d/9fb80dd4b783a482f8cf483180c582a0.jpg',
+        badge: 'Thơm béo',
         isBestSeller: false,
-        desc: 'Trà ủ lạnh thanh nhiệt kết hợp cùng đào miếng giòn ngọt.'
+        desc: 'Sữa tươi thanh trùng hòa quyện cùng mứt dâu tây ngọt ngào tự nhiên.'
       },
       {
         id: 6,
         name: 'Caramel Cream Cold Brew',
-        category: 'drink',
+        category: 'drink', // Đồ uống
         price: 48000,
-        imageUrl: '',
+        imageUrl: 'https://i.pinimg.com/1200x/53/9f/53/539f53848080b06f009d141d95bba40c.jpg',
         badge: 'Đậm đà',
         isBestSeller: false,
         desc: 'Cà phê ủ lạnh 16 giờ phủ lớp kem béo caramel thơm lừng.'
@@ -478,22 +483,32 @@
       {
         id: 7,
         name: 'Bánh Mousse Matcha Slime',
-        category: 'dessert',
+        category: 'dessert', // Bánh ngọt
         price: 46000,
-        imageUrl: '',
+        imageUrl: 'https://i.pinimg.com/1200x/75/6d/d0/756dd035d46733ab05dbc99115ca69c6.jpg',
         badge: 'Mềm mịn',
         isBestSeller: false,
         desc: 'Bánh mousse trà xanh thanh vị, trang trí Slime ngọt ngào.'
       },
       {
         id: 8,
-        name: 'Trà Hoa Cúc Tuyết Lê',
-        category: 'drink',
-        price: 40000,
-        imageUrl: '',
-        badge: 'Dịu ngọt',
+        name: 'Winter Cream Soda',
+        category: 'drink', // Đồ uống (Món mới)
+        price: 48000,
+        imageUrl: 'https://i.pinimg.com/1200x/98/4e/a3/984ea39f846dd04c25aa916de7afa3f6.jpg',
+        badge: 'Sảng khoái',
         isBestSeller: false,
-        desc: 'Hương hoa cúc thanh tịnh quyện cùng vị ngọt mát từ lê tuyết tươi.'
+        desc: 'Soda mát lạnh bùng nổ hương vị mùa đông với lớp kem vanilla êm ái.'
+      },
+      {
+        id: 9,
+        name: 'Sweet Velvet Kiss',
+        category: 'dessert', // Bánh ngọt (Món mới)
+        price: 52000,
+        imageUrl: 'https://i.pinimg.com/736x/46/c1/8f/46c18ff2203c130c51c28676ebef8885.jpg',
+        badge: 'Lãng mạn',
+        isBestSeller: false,
+        desc: 'Bánh ngọt tinh tế với lớp kem mềm mịn, tan chảy ngay đầu lưỡi.'
       }
     ];
 
