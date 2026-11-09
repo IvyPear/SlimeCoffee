@@ -5,3 +5,7 @@ npm-debug.log*
 .npm/
 .DS_Store
 actions-runner/
+# Bỏ qua dữ liệu của Docker Volumes
+grafana_data/
+prometheus_data/
+db_data/

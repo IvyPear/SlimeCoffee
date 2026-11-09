@@ -56,6 +56,7 @@ services:
     #   - "9090:9090" # Grafana truy van metric noi bo qua slime_network
     volumes:
       - ./prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus_data:/prometheus
     depends_on:
       - cadvisor
     networks:
@@ -65,10 +66,13 @@ services:
     image: grafana/grafana:latest
     container_name: grafana
     restart: always
-    # ports:
-    #   - "3001:3000" # Dong port de bao mat, quan tri vien truy cap qua /grafana/ o cong 80
+    user: "104" # Thêm dòng này để chạy container bằng user Grafana mặc định
+    ports:
+      - "3001:3000"
+    volumes:
+      - ./grafana_data:/var/lib/grafana
     depends_on:
-      - cadvisor
+      - prometheus
     networks:
       - slime_network
 
@@ -88,6 +92,8 @@ services:
 
 volumes:
   db_data:
+  prometheus_data:
+  grafana_data:
 
 networks:
   slime_network:
